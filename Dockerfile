@@ -30,7 +30,7 @@ VOLUME ["/etc/motioneye", "/var/lib/motioneye"]
 
 # Start the MotionEye Server
 CMD test -e /etc/motioneye/motioneye.conf || \
-    cp /usr/local/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
+		cp /usr/local/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
     /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
 
 EXPOSE 8765
