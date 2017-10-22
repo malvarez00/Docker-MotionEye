@@ -1,7 +1,7 @@
 FROM ubuntu:17.10
 
 LABEL maintainer="malvarez00@icloud.com" \
-	  version="0.1"
+	  version="1.0"
 
 # Install motion, ffmpeg, v4l-utils and the dependencies from the repositories
 RUN apt-get update && \
@@ -16,16 +16,13 @@ RUN apt-get update && \
 		libjpeg-dev &&\
 	apt-get clean
 
-# Install motioneye, tornado, jinja2, pillow and pycurl
-RUN pip install tornado jinja2 pillow pycurl
+# Install motioneye, which will automatically pull Python dependencies (tornado, jinja2, pillow and pycurl)
+RUN pip install motioneye
 
-# Prepare the configuration directory
+# Prepare the configuration directory and the media directory
 RUN mkdir -p /etc/motioneye \
-	cp /usr/local/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf		
-
-# Prepare the media directory
-RUN mkdir -p /var/lib/motioneye
-
+	mkdir -p /var/lib/motioneye
+RUN cp /usr/local/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
 
 # R/W needed for motioneye to update configurations
 VOLUME /etc/motioneye
@@ -33,10 +30,7 @@ VOLUME /etc/motioneye
 # Video & images
 VOLUME /var/lib/motioneye
 
-# Add an init script, configure it to run at startup and start the motionEye server
-CMD cp /usr/local/share/motioneye/extra/motioneye.systemd-unit-local /etc/systemd/system/motioneye.service \
-	systemctl daemon-reload \
-	systemctl enable motioneye \
-	systemctl start motioneye
+# Start the MotionEye server
+CMD /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
 
 EXPOSE 8765
