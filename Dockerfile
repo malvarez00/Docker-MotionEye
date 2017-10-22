@@ -3,6 +3,7 @@ FROM ubuntu:17.10
 LABEL maintainer="malvarez00@icloud.com"
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV MOTIONEYE_VERSION=0.37.1
 
 # Install motion, ffmpeg, v4l-utils and the dependencies from the repositories
 RUN apt-get update && \
@@ -19,7 +20,7 @@ RUN apt-get update && \
 	apt-get clean
 
 # Install motioneye, which will automatically pull Python dependencies (tornado, jinja2, pillow and pycurl)
-RUN pip install motioneye
+RUN pip install motioneye==$MOTIONEYE_VERSION
 
 # Prepare the configuration directory and the media directory
 RUN mkdir -p /etc/motioneye \
