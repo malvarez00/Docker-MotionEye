@@ -3,12 +3,6 @@ FROM ubuntu:17.10
 LABEL maintainer="malvarez00@icloud.com" \
 	  version="0.1"
 
-ENV LANGUAGE en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LC_TYPE en_US.UTF-8
-ENV TZ America/New_York
-
 # Install motion, ffmpeg, v4l-utils and the dependencies from the repositories
 RUN apt-get update && \
 	apt-get -y upgrade &&\
