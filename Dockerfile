@@ -1,7 +1,7 @@
 FROM ubuntu:17.10
 
 LABEL maintainer="malvarez00@icloud.com" \
-	  version="1.0"
+	  version="1.1"
 
 # Install motion, ffmpeg, v4l-utils and the dependencies from the repositories
 RUN apt-get update && \
@@ -22,7 +22,6 @@ RUN pip install motioneye
 # Prepare the configuration directory and the media directory
 RUN mkdir -p /etc/motioneye \
 	mkdir -p /var/lib/motioneye
-RUN cp /usr/local/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
 
 # R/W needed for motioneye to update configurations
 VOLUME /etc/motioneye
@@ -30,7 +29,9 @@ VOLUME /etc/motioneye
 # Video & images
 VOLUME /var/lib/motioneye
 
-# Start the MotionEye server
+RUN cp /usr/local/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
+
+# Start the MotionEye Server
 CMD /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
 
 EXPOSE 8765
