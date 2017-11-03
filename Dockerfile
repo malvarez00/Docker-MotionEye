@@ -1,6 +1,6 @@
 # MotionEye
 
-FROM phusion/baseimage
+FROM ubuntu:17.10
 
 LABEL maintainer="malvarez00@icloud.com"
 
