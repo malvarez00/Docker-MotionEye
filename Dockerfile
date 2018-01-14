@@ -9,7 +9,7 @@ ENV MOTIONEYE_VERSION=0.38
 
 # Install motion, ffmpeg, v4l-utils and the dependencies from the repositories
 RUN apt-get update && \
-	apt-get -y install \
+	apt-get -y -f install \
 		motion \
 		ffmpeg \
 		v4l-utils \
