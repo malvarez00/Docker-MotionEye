@@ -41,9 +41,9 @@ RUN apt-get --quiet update && \
         apt-get purge --yes \
         python-pip \
         python-setuptools \
-        python-wheel && \
-        apt-get --quiet autoremove --yes && \
-        apt-get --quiet --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
+        python-wheel
+        #apt-get --quiet autoremove --yes && \
+        #apt-get --quiet --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # R/W needed for motioneye to update configurations
 VOLUME /etc/motioneye
