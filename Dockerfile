@@ -4,6 +4,9 @@ FROM ubuntu:17.10
 
 LABEL maintainer="malvarez00@icloud.com"
 
+# Environment Settings
+ENV DEBIAN_FRONTEND noninteractive
+
 ARG BUILD_DATE
 ARG VCS_REF
 LABEL org.label-schema.build-date=$BUILD_DATE \
@@ -15,11 +18,11 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
         org.label-schema.vcs-type="Git" \
         org.label-schema.vcs-url="https://github.com/ccrisan/motioneye.git"
 
-COPY . /tmp/motioneye
+#COPY . /tmp/motioneye
 
 RUN apt-get --quiet update && \
         apt-get --quiet upgrade --yes && \
-        DEBIAN_FRONTEND="noninteractive" apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+        apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
         curl \
         ffmpeg \
         libmysqlclient20 \
@@ -33,11 +36,11 @@ RUN apt-get --quiet update && \
         python-tornado \
         python-wheel \
         v4l-utils && \
-        #curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.1/artful_motion_4.1-1_amd64.deb && \
-        #dpkg -i /tmp/motion.deb && \
-        #rm /tmp/motion.deb && \
-        #pip install /tmp/motioneye && \
-        #rm -rf /tmp/motioneye && \
+        curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.1/artful_motion_4.1-1_amd64.deb && \
+        dpkg -i /tmp/motion.deb && \
+        rm /tmp/motion.deb && \
+        pip install /tmp/motioneye && \
+        rm -rf /tmp/motioneye && \
         apt-get purge --yes \
         python-pip \
         python-setuptools \
