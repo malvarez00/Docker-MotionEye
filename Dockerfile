@@ -1,6 +1,6 @@
 # MotionEye
 
-FROM lsiobase/ubuntu
+FROM ubuntu:18.04
 
 LABEL maintainer="malvarez00@icloud.com"
 ARG VERSION=0.42
@@ -21,7 +21,7 @@ RUN apt-get --quiet --yes install python-pip \
                                   libcurl4-openssl-dev \
                                   libjpeg-dev
 
-RUN pip install --upgrade pip
+# RUN pip install --upgrade pip
 RUN pip install motioneye
 
 RUN apt-get --quiet autoremove --yes && \
@@ -34,17 +34,9 @@ RUN cp /usr/local/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/mot
 # Prepare the media directory
 RUN mkdir -p /var/lib/motioneye
 
-RUN cp /usr/local/share/motioneye/extra/motioneye.init-debian /etc/init.d/motioneye
-RUN chmod +x /etc/init.d/motioneye
-RUN update-rc.d -f motioneye defaults
-RUN /etc/init.d/motioneye start
+CMD /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
 
-CMD tail -f /dev/null
-
-# R/W needed for motioneye to update configurations
-VOLUME /etc/motioneye
-
-# Video & images
-VOLUME /var/lib/motioneye
+# R/W needed for motioneye to update configurations; Video & Images
+VOLUME ["/etc/motioneye", "/var/lib/motioneye"]
 
 EXPOSE 8765
